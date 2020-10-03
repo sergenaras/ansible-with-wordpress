@@ -1,0 +1,41 @@
+---
+# tasks file for php
+- name: Install required package
+  dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - php-cli
+    - php-fpm
+    - php-mysqlnd
+    - php-dom 
+    - php-simplexml 
+    - php-xml 
+    - php-xmlreader 
+    - php-curl 
+    - php-exif 
+    - php-ftp 
+    - php-gd 
+    - php-iconv  
+    - php-json 
+    - php-mbstring 
+    - php-posix 
+    - php-sockets 
+    - php-tokenizer
+  notify: 
+    - php-fpm_start_notify
+- name: Change CGI.FIXPATH
+  lineinfile:
+    path: /etc/php.ini
+    regexp: '^;cgi.fix_pathinfo=1'
+    line: cgi.fix_pathinfo=0
+  notify: 
+    - php-fpm_restart_notify
+- name: Change www.conf file
+  lineinfile:
+    path: /etc/php-fpm.d/www.conf
+    regexp: 'listen = /run/php-fpm/www.sock'
+    line: "listen = 127.0.0.1:9000"
+  notify: 
+    - php-fpm_restart_notify

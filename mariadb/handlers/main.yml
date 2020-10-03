@@ -1,0 +1,13 @@
+---
+# handlers file for mariadb
+- name: Mariadb Restart Service Handler
+  service:
+    name: mariadb
+    state: restarted
+  listen: mariadb_restart_notify
+- name: Mariadb Start Service Handler
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+  listen: mariadb_start_notify

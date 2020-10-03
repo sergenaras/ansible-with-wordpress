@@ -1,0 +1,13 @@
+---
+# handlers file for php
+- name: PHP-FPM Start Service Handler
+  service:
+    name: php-fpm
+    state: started
+    enabled: yes
+  listen: php-fpm_start_notify
+- name: PHP-FPM Restart Service Handler
+  service:
+    name: php-fpm
+    state: daemon_reload
+  listen: php-fpm_restart_notify

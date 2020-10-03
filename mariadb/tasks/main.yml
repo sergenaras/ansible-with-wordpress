@@ -1,0 +1,45 @@
+---
+# tasks file for mariadb
+- name: Install required package
+  dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mariadb
+    - mariadb-server
+    - python3
+    - python3-PyMySQL
+  notify: 
+    - mariadb_start_notify
+- name: Install pymysql
+  pip:
+    name: pymysql
+    state: present
+- name: Set the root password
+  mysql_user:
+    login_host: 'localhost'
+    login_user: 'root'
+    login_password: "{{ mysql_root_password }}"
+    host_all: yes
+    name: root
+    password: "{{ mysql_root_password }}"
+- name: Create .my.cnf
+  template:
+    src: "./files/dotmy.cnf.j2"
+    dest: "/etc/my.cnf"
+    owner: root
+    group: root
+    mode: 0600
+- name: Delete anonymous mysql.user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: ""
+    state: absent
+- name: Remove test database
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: test
+    state: absent

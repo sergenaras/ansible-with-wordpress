@@ -1,0 +1,9 @@
+# wordpress with ansible
+
+---
+- hosts: wordp
+  become: yes
+  roles:
+    - mariadb
+    - php
+    - nginx

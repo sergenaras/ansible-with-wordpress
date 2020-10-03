@@ -1,0 +1,25 @@
+---
+# tasks file for nginx
+- name: Install required package
+  dnf:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - nginx
+  notify: 
+    - nginx_start_notify
+- name: Add firewall http service
+  firewalld:
+    service: http
+    state: enabled
+    permanent: yes
+  notify: 
+    - firewalld_restart_notify
+- name: Add firewall 80/tcp port
+  firewalld:
+    port: 80/tcp
+    state: enabled
+    permanent: yes
+  notify: 
+    - firewalld_restart_notify

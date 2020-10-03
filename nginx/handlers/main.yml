@@ -1,0 +1,18 @@
+---
+# handlers file for nginx
+- name: Firewall Restart Service Handler
+  service:
+    name: firewalld
+    state: restarted
+  listen: firewalld_restart_notify
+- name: Nginx Start Service Handler
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  listen: nginx_start_notify
+- name: Nginx Restart Service Handler
+  service:
+    name: nginx
+    state: restarted
+  listen: nginx_restart_notify
