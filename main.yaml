@@ -1,7 +1,7 @@
 # wordpress with ansible
 
 ---
-- hosts: wordp
+- hosts: cent8
   become: yes
   roles:
     - mariadb

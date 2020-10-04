@@ -9,5 +9,5 @@
 - name: PHP-FPM Restart Service Handler
   service:
     name: php-fpm
-    state: daemon_reload
+    state: restarted
   listen: php-fpm_restart_notify
