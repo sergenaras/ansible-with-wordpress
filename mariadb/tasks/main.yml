@@ -15,12 +15,38 @@
     name: mariadb
     state: started
     enabled: yes
-  notify:
-    - mysql_secure_installation_notify
 - name: Install pymysql
   pip:
     name: pymysql
     state: present
+    
+- name: Create .my.cnf
+  template:
+    src: "./files/dotmy.cnf.j2"
+    dest: "/etc/my.cnf"
+    owner: root
+    group: root
+    mode: 0600
+- name: Set the root password
+  mysql_user:
+    login_host: 'localhost'
+    login_user: 'root'
+    login_password: ''
+    host_all: yes
+    name: root
+    password: "{{ mysql_root_password }}"
+- name: Delete anonymous mysql.user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: ""
+    state: absent
+- name: Remove test database
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: test
+    state: absent
 
 - name: Create wordpress database
   mysql_db:

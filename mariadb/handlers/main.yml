@@ -5,38 +5,3 @@
     name: mariadb
     state: restarted
   listen: mariadb_restart_notify
-- name: Set the root password
-  mysql_user:
-    login_host: 'localhost'
-    login_user: 'root'
-    login_password: ''
-    host_all: yes
-    name: root
-    password: "{{ mysql_root_password }}"
-  listen: 
-    - mysql_secure_installation_notify
-- name: Create .my.cnf
-  template:
-    src: "./files/dotmy.cnf.j2"
-    dest: "/etc/my.cnf"
-    owner: root
-    group: root
-    mode: 0600
-  listen: 
-    - mysql_secure_installation_notify
-- name: Delete anonymous mysql.user
-  mysql_user:
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    name: ""
-    state: absent
-  listen: 
-    - mysql_secure_installation_notify
-- name: Remove test database
-  mysql_db:
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    name: test
-    state: absent
-  listen: 
-    - mysql_secure_installation_notify
