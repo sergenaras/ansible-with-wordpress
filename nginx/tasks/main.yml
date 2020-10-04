@@ -66,9 +66,9 @@
   with_fileglob:
       - /tmp/wordpress/*
       - /tmp/wordpress/.*
-
 - name: Copy wp-config file
   copy:
     src: /sites/{{ domain_name }}/public_html/wp-config-sample.php
     dest: /sites/{{ domain_name }}/public_html/wp-config.php
     remote_src: yes
+
