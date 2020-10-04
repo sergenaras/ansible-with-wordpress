@@ -4,6 +4,6 @@
 - hosts: cent8
   become: yes
   roles:
-    - mariadb
-    - php
+#    - mariadb
+#    - php
     - nginx

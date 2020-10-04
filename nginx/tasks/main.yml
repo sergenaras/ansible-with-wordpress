@@ -23,3 +23,52 @@
     permanent: yes
   notify: 
     - firewalld_restart_notify
+
+- name: Create directory for public html
+  file:
+    path: /sites/{{ domain_name }}/public_html/
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 0755
+- name: Create directory for logs
+  file:
+    path: /sites/{{ domain_name }}/logs/
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 0755
+- name: Copy Configuration File
+  template:
+    src: ./files/nginx.conf.j2
+    dest: "/etc/nginx/conf.d/{{ domain_name }}.conf"
+    owner: nginx
+    group: nginx
+    mode: 0750
+  notify:
+    - nginx_restart_notify
+- name: Download wordpress files
+  unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: /tmp
+    owner: nginx
+    group: nginx
+    mode: '0755'
+    remote_src: yes  
+- name: Copy wordpress file to public html
+  copy:
+    src: "{{ item }}"
+    dest: /sites/{{ domain_name }}/public_html/
+    owner: nginx
+    group: nginx
+    mode: 755
+    remote_src: yes
+  with_fileglob:
+      - /tmp/wordpress/*
+      - /tmp/wordpress/.*
+
+- name: Copy wp-config file
+  copy:
+    src: /sites/{{ domain_name }}/public_html/wp-config-sample.php
+    dest: /sites/{{ domain_name }}/public_html/wp-config.php
+    remote_src: yes
