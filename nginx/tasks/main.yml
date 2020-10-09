@@ -1,5 +1,15 @@
 ---
 # tasks file for nginx
+
+#- name: Disable SELinux
+#  replace:
+#    file: /etc/selinux/config
+#    regexp: 'SELINUX='
+#    replace: 'SELINUX=disabled'
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
 - name: Install required package
   dnf:
     name: "{{ item }}"
@@ -8,25 +18,27 @@
   with_items:
     - nginx
     - tar
-- name: Start Nginz service
+    - unzip
+- name: Start Nginx service
   service:
      name: nginx
      state: started
      enabled: yes
+
 - name: Add firewall http service
   firewalld:
     service: http
     state: enabled
     permanent: yes
-  notify: 
-    - firewalld_restart_notify
 - name: Add firewall 80/tcp port
   firewalld:
     port: 80/tcp
     state: enabled
     permanent: yes
-  notify: 
-    - firewalld_restart_notify
+- name: Firewall Restart Service
+  service:
+    name: firewalld
+    state: restarted
 
 - name: Create directory for public html
   file:
@@ -34,40 +46,69 @@
     state: directory
     owner: nginx
     group: nginx
-    mode: 0755
+    mode: '0755'
 - name: Create directory for logs
   file:
     path: /sites/{{ domain_name }}/logs/
     state: directory
     owner: nginx
     group: nginx
-    mode: 0755
+    mode: '0755'
 - name: Copy Configuration File
   template:
     src: ./files/nginx.conf.j2
     dest: "/etc/nginx/conf.d/{{ domain_name }}.conf"
     owner: nginx
     group: nginx
-    mode: 0750
+    mode: '0750'
 - name: Download wordpress files
   unarchive:
     src: https://wordpress.org/latest.tar.gz
     dest: /tmp
-    owner: nginx
-    group: nginx
     mode: '0755'
     remote_src: yes  
 - name: Copy wordpress file to public html
   copy:
     src: /tmp/wordpress/
     dest: /sites/{{ domain_name }}/public_html/
-    owner: nginx
-    group: nginx
-    mode: 755
+    mode: '755'
     remote_src: yes
 - name: Copy wp-config file
   copy:
     src: /sites/{{ domain_name }}/public_html/wp-config-sample.php
     dest: /sites/{{ domain_name }}/public_html/wp-config.php
     remote_src: yes
+- name: Recursively change ownership of a directory
+  file:
+    path: /sites/{{ domain_name }}/
+    state: directory
+    recurse: yes
+    owner: nginx
+    group: nginx
 
+
+- name: Include variable
+  include_vars:
+    file: ../../mariadb/vars/main.yml
+    name: database_variable
+
+- name: Change database name in wp-config.php
+  replace:
+    path: /sites/{{ domain_name }}/public_html/wp-config.php
+    regexp: 'database_name_here'
+    replace: '{{ mysql_database_name }}'
+- name: Change database user in wp-config.php
+  replace:
+    path: /sites/{{ domain_name }}/public_html/wp-config.php
+    regexp: 'username_here'
+    replace: '{{ mysql_database_user }}'
+- name: Change user passwords in wp-config.php
+  replace:
+    path: /sites/{{ domain_name }}/public_html/wp-config.php
+    regexp: 'password_here'
+    replace: '{{ mysql_database_password }}'
+
+- name: Nginx Restart Service Handler
+  service:
+    name: nginx
+    state: restarted

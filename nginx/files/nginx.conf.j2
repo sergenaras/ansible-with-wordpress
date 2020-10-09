@@ -1,43 +1,28 @@
 server {
-	listen 80; 
-	server_name {{ domain_name }};
+    listen 80;
+    server_name {{ domain_name }};
 
-	root /sites/{{ domain_name }}/public_html/;
+    root /sites/{{ domain_name }}/public_html/;
 
-	index index.html index.php;
+    index index.php;
 
-	access_log /sites/{{ domain_name }}/logs/access.log;
-	error_log /sites/{{ domain_name }}/logs/error.log;
+    access_log /sites/{{ domain_name }}/logs/access.log;
+    error_log /sites/{{ domain_name }}/logs/error.log;
 
-	# Don't allow pages to be rendered in an iframe on external domains.
-	add_header X-Frame-Options "SAMEORIGIN";
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
 
-	# MIME sniffing prevention
-	add_header X-Content-Type-Options "nosniff";
-
-	# Enable cross-site scripting filter in supported browsers.
-	add_header X-Xss-Protection "1; mode=block";
-
-	# Prevent access to hidden files
-	location ~* /\.(?!well-known\/) {
-		deny all;
-	}
-
-	# Prevent access to certain file extensions
-	location ~\.(ini|log|conf)$ {
-		deny all;
-	}
-        
-        # Enable WordPress Permananent Links
-	location / {
-		try_files $uri $uri/ /index.php?$args;
-	}
-
-	location ~ \.php$ {
-        include /etc/nginx/fastcgi_params;
+    location ~ \.php$ {
+        try_files $uri =404;
         fastcgi_pass 127.0.0.1:9000;
-        fastcgi_index index.php;
+        fastcgi_index   index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-	}
+        include fastcgi_params;
+    }
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        expires max;
+        log_not_found off;
+    }
 
 }
