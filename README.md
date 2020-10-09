@@ -1,0 +1,1 @@
+Hedef gösterilen host üzerinde veritabanı, php ve nginx gibi servislerin kurulum ve konfigürasyonlarını tamamladıktan sonra kişiye sadece sitenin adını yazıp wordpress panelinde ilgili alanları doldurup devam etmesini sağlayacak bir yapı kurulmuştur. 
