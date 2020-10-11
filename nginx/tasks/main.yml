@@ -86,27 +86,21 @@
     owner: nginx
     group: nginx
 
-
-- name: Include variable
-  include_vars:
-    file: ../../mariadb/vars/main.yml
-    name: database_variable
-
 - name: Change database name in wp-config.php
   replace:
     path: /sites/{{ domain_name }}/public_html/wp-config.php
     regexp: 'database_name_here'
-    replace: '{{ mysql_database_name }}'
+    replace: '{{ db_name }}'
 - name: Change database user in wp-config.php
   replace:
     path: /sites/{{ domain_name }}/public_html/wp-config.php
     regexp: 'username_here'
-    replace: '{{ mysql_database_user }}'
+    replace: '{{ db_user }}'
 - name: Change user passwords in wp-config.php
   replace:
     path: /sites/{{ domain_name }}/public_html/wp-config.php
     regexp: 'password_here'
-    replace: '{{ mysql_database_password }}'
+    replace: '{{ db_user_password }}'
 
 - name: Nginx Restart Service Handler
   service:

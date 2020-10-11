@@ -3,6 +3,22 @@
 ---
 - hosts: cent8
   become: yes
+  vars_prompt:
+    - name: "domain_name"
+      prompt: "Domain name: "
+      private: no
+    - name: "db_root_password"
+      prompt: "Database root name:"
+      private: no
+    - name: "db_name"
+      prompt: "Wordpress database name:"
+      private: no
+    - name: "db_user"
+      prompt: "Wordpress database user:"
+      private: no
+    - name: "db_user_password"
+      prompt: "Wordpress database user password:"
+      private: no
   roles:
     - mariadb
     - php
