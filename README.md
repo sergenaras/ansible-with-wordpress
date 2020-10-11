@@ -1,4 +1,4 @@
-WORDPRESS INSTALLATION WITH ANSIBLE
+WORDPRESS INSTALLATION WITH ANSIBLE FOR CENTOS 8
 =========
 
 Bu proje bir sunucu içerisine mariadb, php ve nginx kurulumu gerçekleştirip üzerine wordpress'i yapılandırarak kullanıcıyı CLI tarafındaki konfigürasyonlarla uğraştırmadan ve hata yapma olasılığını sıfırlayarak wordpress deneyimi yaşaması için yazılmıştır.
