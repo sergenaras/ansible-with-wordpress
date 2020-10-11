@@ -1,14 +1,10 @@
-Role Name
+MARIADB
 =========
 
-Bu rol wordpress için gerekli olan mariadb inşası için oluşturulmuştur. 
+Bu rol wordpress için gerekli olan veritabanı inşası için oluşturulmuştur. 
+Mariadb veritabanının sistem deposundaki son versionunu indirir ve konuk kullanıcı ve test veritabanlarını silerek root için parola atamasını gerçekleştirir. 
+Son olarka wordpress için gerekli veritabanı ve kullanıcıyı oluşturup bunların üzerindeki yetkilendirmeleri yapar.
 
-Role Variables
---------------
+Herhangi bir bağımlılığı yoktur. Kendi başına çalıştırılarak bir veritabanı kurulumu yapılabilir. Ancak şuan (11.10.2020) değişkenler rollerin dışında bulunan main.yaml dosyası aracılığıyla alındığı için role içerisinde bazı düzenlemeler yapmak gerekecektir. 
 
-Bu rol içerisinde tanımmlanmış ve diğer roller içerisinde de kullanılan veritabanı ile ilgili değişkenler bulunmaktadır. 
-
-Dependencies
-------------
-
-Bu rolün çalışması için herhangi bir öntanımlı gereksinimi yoktur. İhtiyaç duyduğu modulleri kendisi yükler.
+Bununla ilgili aksiton alındığında buraya not düşeceğim.

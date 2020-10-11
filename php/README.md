@@ -1,6 +1,5 @@
-Role Name
+PHP
 =========
 
-Bu rol wordpress için gerekli olan php servislerini ve araçlarını indirilmesini sağlar. İçerisinde herhangi bir değişken kullanılmadığı gibi kendi işlemleri dışında bir işlem için dışarıdan çağırılmaz ve dışarıya gitmez.
-
-Gerekli tool'ları yükledikten ve ilgili konfigürasyon dosyalarında değişiklikler yapmaktan başka işi yoktur.
+Bu rol wordpress için gerekli olan PHP aarçlarının indirilmesini sağlar. 
+Araçların kurulumundan sonra bir kaç konfigürasyon dosyasında yapılan ufak değişikliklerden sonra nginx ve wordpress için hazır hale geliyor.
