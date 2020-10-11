@@ -5,7 +5,7 @@ Bu proje bir sunucu içerisine mariadb, php ve nginx kurulumu gerçekleştirip �
 
 Kullanımı için yapılması gereken tek şey bir ansible'a sahip olmak ve bu projenin uygulanacağı sunucuyu host'u olarak tanımlamak yeterli. Rollerin dışındaki main.yaml dosyası çalıştırıldığında bizden isteyeceği bazı değişkenler var. Bu değişkenler dışında geri kalan işlemler ansible taskları halinde halledilecektir. Kullanıcıya kalan değişkenler kısmında girdiği domain adresine gitmek olacak.
 
-`
+```
 root@pandorika wordpress]# ansible-playbook main.yaml -K
 BECOME password: 
 [DEPRECATION WARNING]: The firewalld module has been moved to the ansible.posix collection. This feature will 
@@ -136,4 +136,4 @@ changed: [cent8]
 PLAY RECAP *****************************************************************************************************
 cent8                      : ok=32   changed=28   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
-`
+```
