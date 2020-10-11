@@ -3,10 +3,9 @@ WORDPRESS INSTALLATION WITH ANSIBLE
 
 Bu proje bir sunucu içerisine mariadb, php ve nginx kurulumu gerçekleştirip üzerine wordpress'i yapılandırarak kullanıcıyı CLI tarafındaki konfigürasyonlarla uğraştırmadan ve hata yapma olasılığını sıfırlayarak wordpress deneyimi yaşaması için yazılmıştır.
 
-Kullanımı için yapılması gereken tek şey bir ansible'a sahip olmak ve bu projenin uygulanacağı sunucuyu host'u olarak tanımlamak yeterli. Rollerin dışındaki main.yaml dosyası çalıştırıldığında bizden isteyeceği bazı değişkenler var. Bu değişkenler dışında geri kalan işlemler ansible taskları halinde halledilecektir. Kullanıcıya kalan değişkenler kısmında girdiği domain adresine gitmek olacak.
 
 ```
-root@pandorika wordpress]# ansible-playbook main.yaml -K
+ansible-playbook main.yaml -K
 BECOME password: 
 [DEPRECATION WARNING]: The firewalld module has been moved to the ansible.posix collection. This feature will 
 be removed from community.general in version 2.0.0. Deprecation warnings can be disabled by setting 
