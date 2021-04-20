@@ -8,7 +8,7 @@
       prompt: "Domain name: "
       private: no
     - name: "db_root_password"
-      prompt: "Database root name:"
+      prompt: "Database root password:"
       private: no
     - name: "db_name"
       prompt: "Wordpress database name:"
